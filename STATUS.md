@@ -1,12 +1,12 @@
 ---
 status: active
-progress: Space live and logging; next is criteria.md + trials
+progress: before-trials done, 7/8 pass; next is diagnosis + improvement
 next_date:
 updated: 2026-11-18
 ---
 
 ## Now
-- 2026-11-18: LIVE at https://huggingface.co/spaces/JasonJosephIT/takemeter (HF PRO, cpu-basic). API endpoint is /classify (Gradio names it after the function). 3 test calls logged with stage timings; server latency 31-417 ms, round trip 375-589 ms. Logs only in Space Logs tab + ephemeral requests.jsonl (no CommitScheduler yet). Model: huggingface.co/JasonJosephIT/takemeter.
+- 2026-11-18: Before-trials done (run_log.md / run_log.json, trials.py): 7 of 8 pass. 5b macro-F1 0.357 misses 0.60. 6 ad precision 0.714 passes by one post. Cold start 16 s (pause -> restart). Next: verdicts + diagnosis, then pick an improvement (token limit already used).
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next

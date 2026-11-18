@@ -6,7 +6,7 @@ updated: 2026-11-18
 ---
 
 ## Now
-- 2026-11-18: train_save.py trains with notebook settings and saves ./model. Seed 42: 3 epochs = 0.18 acc (predicts one class), 10 epochs = 0.30 acc / 0.28 macro-F1 (saved). space/ holds app.py (JSONL log + stage timings), requirements.txt, README.md. Waiting on go-ahead to push model + Space to HF (account JasonJosephIT).
+- 2026-11-18: Model live at huggingface.co/JasonJosephIT/takemeter (seed 42, 10 epochs, original labels, 0.30 acc). Repo: github.com/JasonJosephIT/ai201-project5-takemeter. Space NOT created: HF now requires PRO ($9/mo) for Gradio Spaces on free CPU. Waiting on my choice: buy PRO, or move hosting elsewhere.
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next

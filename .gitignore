@@ -6,3 +6,4 @@ takemeter_out/
 space/requirements.jsonl
 requests.jsonl
 .claude/
+model_128/

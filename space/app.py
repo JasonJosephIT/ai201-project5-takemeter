@@ -8,7 +8,7 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 MODEL = "JasonJosephIT/takemeter"
-MAX_LENGTH = 128
+MAX_LENGTH = 512
 tok = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL).eval()
 

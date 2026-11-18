@@ -86,6 +86,12 @@ that the deciding cue often sits past the cut. Without these fields the cut is
 invisible; with them, wrong answers can be checked against truncation, and the
 `max_length` 256 improvement can be measured. It is a count, so the target is exact.
 
+**Revised 2026-11-18, before any trial:** `truncated` is `n_tokens > MAX_LENGTH`,
+where `MAX_LENGTH` is now 512 (4 × 128, DistilBERT's maximum), not 128.
+**Why revised:** the token limit was raised and the model retrained before trials
+started, so the flag follows the deployed limit. 10 of 215 posts (5%) are still
+longer than 512. The target (20/20 match) is unchanged.
+
 <!--
 Revisions go underneath the original line, never in place of it.
 Lowering a target because it was missed is not a revision.

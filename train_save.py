@@ -18,7 +18,7 @@ LABELS = ["analysis", "hot_take", "reaction", "explainer", "anecdote", "advertis
 BASE_MODEL = "distilbert-base-uncased"
 import os
 EPOCHS = int(os.environ.get("EPOCHS", 3))
-LEARNING_RATE, BATCH_SIZE, MAX_LENGTH, SEED = 2e-5, 16, 128, 42
+LEARNING_RATE, BATCH_SIZE, MAX_LENGTH, SEED = 2e-5, 16, 512, 42
 
 df = pd.read_csv("labels.csv")
 df["label"] = df["label"].astype(str).str.strip()

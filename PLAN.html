@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Project 5 plan — TakeMeter hosted</title>
+<style>
+body{font:15px/1.5 -apple-system,system-ui,sans-serif;max-width:960px;margin:32px auto;padding:0 20px;color:#1d1d1f;background:#fafafa}
+h1{font-size:24px;margin-bottom:4px}h2{font-size:17px;margin-top:28px;border-bottom:1px solid #ddd;padding-bottom:4px}
+.sub{color:#666}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:#fff;border:1px solid #e3e3e3;border-radius:10px;padding:12px 14px}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:9px;margin-left:6px}
+.ext{background:#e3f0ff;color:#0a4fa0}.sys{background:#eee;color:#555}
+table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid #e3e3e3;padding:6px 9px;text-align:left}th{background:#f2f2f2}
+code{background:#f0f0f0;padding:1px 4px;border-radius:4px;font-size:13px}
+.flow{display:block;margin:10px auto}
+</style></head><body>
+<h1>TakeMeter → hosted (shape A, Path A)</h1>
+<div class="sub">Project 5 extension of Project 3 · Hugging Face Space + Gradio · ~5–6 h total</div>
+
+<h2>Request flow and what gets logged</h2>
+<svg class="flow" width="900" height="130" viewBox="0 0 900 130" font-family="system-ui" font-size="13">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#888"/></marker></defs>
+<g fill="#fff" stroke="#999">
+<rect x="10" y="30" width="120" height="50" rx="8"/><rect x="170" y="30" width="120" height="50" rx="8"/>
+<rect x="330" y="30" width="120" height="50" rx="8"/><rect x="490" y="30" width="120" height="50" rx="8"/>
+<rect x="650" y="30" width="120" height="50" rx="8" fill="#e3f0ff"/><rect x="780" y="30" width="110" height="50" rx="8" fill="#e3f0ff"/></g>
+<g text-anchor="middle"><text x="70" y="60">User post (URL)</text><text x="230" y="60">tokenize</text><text x="390" y="60">DistilBERT</text>
+<text x="550" y="60">label + conf</text><text x="710" y="60">requests.jsonl</text><text x="835" y="55">HF dataset</text><text x="835" y="70" font-size="11">CommitScheduler</text></g>
+<g stroke="#888" marker-end="url(#a)"><line x1="130" y1="55" x2="168" y2="55"/><line x1="290" y1="55" x2="328" y2="55"/><line x1="450" y1="55" x2="488" y2="55"/><line x1="610" y1="55" x2="648" y2="55"/><line x1="770" y1="55" x2="778" y2="55"/></g>
+<g text-anchor="middle" fill="#0a4fa0" font-size="11"><text x="230" y="100">t_tokenize_ms</text><text x="390" y="100">t_model_ms</text><text x="550" y="100">t_post_ms</text><text x="390" y="120">total → latency_ms (cost number)</text></g>
+</svg>
+
+<h2>Five acceptance criteria (draft)</h2>
+<div class="grid">
+<div class="card"><b>1. Reachable</b><span class="tag ext">extension</span><br>URL returns label + confidence for a 50-word post in ≤ 5 s (warm). 3/3.</div>
+<div class="card"><b>2. Logged</b><span class="tag ext">extension</span><br>Every request → 1 JSONL line with <code>ts, input, label, confidence, latency_ms</code>. 10/10 per trial, 0 missing fields.</div>
+<div class="card"><b>3. Warm latency</b><span class="tag ext">extension</span><br>Median <code>latency_ms</code> ≤ 500 ms over 20 requests.</div>
+<div class="card"><b>4. Cold start</b><span class="tag ext">extension</span><br>First request after the Space sleeps answers in ≤ 60 s.</div>
+<div class="card"><b>5. Quality holds</b><span class="tag sys">system</span><br>Macro-F1 ≥ 0.60 on test set; hosted = local predictions on ≥ 19/20 posts.</div>
+<div class="card"><b>Out of scope</b><br>New labels, hardening (retries, rate limits, bad input), auth, UI polish.</div>
+</div>
+
+<h2>Requirement → where it lives</h2>
+<table>
+<tr><th>Requirement</th><th>File</th><th>Plan</th></tr>
+<tr><td>Extension + shape + out of scope</td><td>README.md</td><td>TakeMeter, shape A, Path A</td></tr>
+<tr><td>Run path</td><td>RUNNING.md</td><td>Space URL, platform, push steps</td></tr>
+<tr><td>Structured logs (≥10 pasted)</td><td>README.md + logs/</td><td>JSONL, CommitScheduler to an HF dataset</td></tr>
+<tr><td>Cost</td><td>README.md</td><td>Median and p90 CPU seconds per request, from logs; $0 on the free tier</td></tr>
+<tr><td>3 trials × 5 criteria, before and after</td><td>run_log.md</td><td>One table per criterion</td></tr>
+<tr><td>Verdict + diagnosis</td><td>run_log.md</td><td>Met/missed, cause for each miss</td></tr>
+<tr><td>One improvement</td><td>run_log.md</td><td>Probably: load once at startup + max_length 256</td></tr>
+<tr><td>Extra credit</td><td>README.md (declare first)</td><td>Latency breakdown per stage</td></tr>
+</table>
+
+<h2>Steps</h2>
+<table>
+<tr><th>#</th><th>Step</th><th>Time</th></tr>
+<tr><td>0</td><td>Train: run takemeter.ipynb sections 1–5, save the model</td><td>~1 h</td></tr>
+<tr><td>1</td><td>Write criteria.md before any deploy</td><td>20 min</td></tr>
+<tr><td>2</td><td>Write app.py + requirements.txt with logging and stage timings</td><td>45 min</td></tr>
+<tr><td>3</td><td>Push the model to the Hub, create the Space, deploy</td><td>30 min</td></tr>
+<tr><td>4</td><td>Write RUNNING.md</td><td>10 min</td></tr>
+<tr><td>5</td><td>Run 3 trials per criterion and fill in run_log.md</td><td>45 min</td></tr>
+<tr><td>6</td><td>Write the verdict and diagnosis</td><td>20 min</td></tr>
+<tr><td>7</td><td>Make one improvement and re-run (before/after)</td><td>1 h</td></tr>
+<tr><td>8</td><td>Finish README</td><td>30 min</td></tr>
+</table>
+</body></html>

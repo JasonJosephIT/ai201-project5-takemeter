@@ -1,12 +1,12 @@
 ---
 status: active
-progress: model trained locally (./model), Space files ready in space/; not published yet
+progress: Space live and logging; next is criteria.md + trials
 next_date:
 updated: 2026-11-18
 ---
 
 ## Now
-- 2026-11-18: Model live at huggingface.co/JasonJosephIT/takemeter (seed 42, 10 epochs, original labels, 0.30 acc). Repo: github.com/JasonJosephIT/ai201-project5-takemeter. Space NOT created: HF now requires PRO ($9/mo) for Gradio Spaces on free CPU. Waiting on my choice: buy PRO, or move hosting elsewhere.
+- 2026-11-18: LIVE at https://huggingface.co/spaces/JasonJosephIT/takemeter (HF PRO, cpu-basic). API endpoint is /classify (Gradio names it after the function). 3 test calls logged with stage timings; server latency 31-417 ms, round trip 375-589 ms. Logs only in Space Logs tab + ephemeral requests.jsonl (no CommitScheduler yet). Model: huggingface.co/JasonJosephIT/takemeter.
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next

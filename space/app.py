@@ -8,13 +8,15 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 MODEL = "JasonJosephIT/takemeter"
+MAX_LENGTH = 128
 tok = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL).eval()
 
 
 def classify(text):
     t0 = time.perf_counter()
-    enc = tok(text, truncation=True, max_length=128, return_tensors="pt")
+    n_tokens = len(tok(text)["input_ids"])  # full length, before the cut
+    enc = tok(text, truncation=True, max_length=MAX_LENGTH, return_tensors="pt")
     t1 = time.perf_counter()
     with torch.no_grad():
         probs = model(**enc).logits.softmax(-1)[0]
@@ -26,6 +28,7 @@ def classify(text):
     rec = {
         "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "input": text, "label": label, "confidence": round(conf, 4),
+        "n_tokens": n_tokens, "truncated": n_tokens > MAX_LENGTH,
         "latency_ms": round((t3 - t0) * 1000, 1),
         "t_tokenize_ms": round((t1 - t0) * 1000, 1),
         "t_model_ms": round((t2 - t1) * 1000, 1),

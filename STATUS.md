@@ -15,6 +15,7 @@ labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed a
 - Build app.py with JSONL logging and deploy to an HF Space.
 
 ## Decisions
+- 2026-11-18: Criteria: #3 warm latency median <= 300 ms; #5 split into 5a hosted matches local >= 19/20 and 5b macro-F1 >= 0.60 (kept knowing current model is 0.28); added #6 advertisement precision >= 0.70 on test split. #7 added: log n_tokens + truncated, must match local count 20/20. criteria.md written; app redeployed with the new fields.
 - 2026-11-11: Project 5 extension = shape A (deploy and instrument), Path A (hosted on a Hugging Face Space with Gradio). Extra credit = per-stage latency breakdown. Out of scope: new labels, hardening, auth, UI polish. Plan in PLAN.md / PLAN.html.
 - 2026-10-26: Added `advertisement` as a 6th label (step 0: is it selling something the writer is connected to?), kept `explainer` as the catch-all. find_ads.py collects 35 ads; existing 180 rows untouched.
 - 2026-10-26: Taxonomy written (Milestone 2) in Project 3 README + label_definitions.txt: three ordered questions (position? → lived it? → else explainer) make labels mutually exclusive. Hardest boundary: analysis vs explainer. Label ids stay analysis/hot_take/reaction/explainer/anecdote.

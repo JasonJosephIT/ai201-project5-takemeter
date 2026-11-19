@@ -1,12 +1,12 @@
 ---
 status: active
-progress: hosting, trials, improvement and demo page done; README left
+progress: all PLAN steps drafted; README needs my review
 next_date:
 updated: 2026-11-18
 ---
 
 ## Now
-- 2026-11-19: Improvement = max_length 128 -> 512. Before/after trials both done (run_log.md, run_log_128.json, run_log_512.json): 7/8 pass both times; macro-F1 0.28 -> 0.36 (still misses 0.60), ad precision 0.80 -> 0.71. Space back on the 512 model. Demo page now has built / flow / results / improvement / next sections. Left: README (PLAN step 8), RUNNING.md.
+- 2026-11-19: Improvement = max_length 128 -> 512. Before/after trials both done (run_log.md, run_log_128.json, run_log_512.json): 7/8 pass both times; macro-F1 0.28 -> 0.36 (still misses 0.60), ad precision 0.80 -> 0.71. Space back on the 512 model. Demo page now has built / flow / results / improvement / next sections. README.md + RUNNING.md drafted (2026-11-19). Left: my review of the README; cancel HF PRO after submitting.
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next

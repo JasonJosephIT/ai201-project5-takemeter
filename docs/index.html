@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TakeMeter: live demo</title>
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --ink:#1d1d1f; --muted:#6b6b70; --line:#e3e3e0; --accent:#2f5bd3; --ad:#c2410c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141416; --card:#1d1d20; --ink:#ececee; --muted:#9a9aa2; --line:#2e2e33; --accent:#7b9cff; --ad:#fb923c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 20px 64px; }
+  h1 { font-size: 1.75rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin: 0 0 28px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  label { display:block; font-weight:600; margin-bottom: 8px; }
+  textarea { width:100%; min-height: 140px; resize: vertical; padding: 12px; border-radius: 10px;
+             border:1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+  textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row { display:flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items:center; }
+  button { font: inherit; border-radius: 999px; padding: 8px 16px; cursor: pointer; border:1px solid var(--line);
+           background: var(--card); color: var(--ink); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button:disabled { opacity: .6; cursor: progress; }
+  .examples { font-size: .875rem; color: var(--muted); margin-top: 16px; }
+  .examples button { font-size: .875rem; padding: 4px 12px; }
+  #status { color: var(--muted); font-size: .9rem; min-height: 1.5em; margin-top: 16px; }
+  #result { margin-top: 8px; display:none; }
+  .top { font-size: 1.5rem; font-weight: 700; margin: 0 0 12px; }
+  .bar { display:grid; grid-template-columns: 120px 1fr 52px; gap: 10px; align-items:center; margin: 6px 0; font-size: .9rem; }
+  .track { height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s ease; }
+  .bar.ad .fill { background: var(--ad); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .note { color: var(--muted); font-size: .875rem; margin-top: 28px; }
+  .note a { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>TakeMeter</h1>
+  <p class="sub">Paste a post from a local subreddit and see which of six labels the model gives it.</p>
+
+  <div class="card">
+    <label for="post">Post</label>
+    <textarea id="post" placeholder="e.g. Anyone know a good taco place near downtown Orlando?"></textarea>
+    <div class="row">
+      <button id="go" class="primary">Classify post</button>
+      <button id="clear">Clear</button>
+    </div>
+    <div class="examples">Try an example:
+      <div class="row">
+        <button data-ex="Free live band karaoke this Friday at our bar on Pine St, no cover! Come through.">Ad</button>
+        <button data-ex="Anyone know a good dentist near Winter Park that takes walk-ins?">Question</button>
+        <button data-ex="The city should fix I-4 before building more toll roads. Nobody asked for this.">Opinion</button>
+        <button data-ex="Just saw a huge gator crossing Alafaya right now, traffic is stopped both ways!">Right now</button>
+      </div>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+    <div id="result">
+      <p class="top" id="top"></p>
+      <div id="bars"></div>
+    </div>
+  </div>
+
+  <p class="note">
+    The model is a fine-tuned DistilBERT running on a
+    <a href="https://huggingface.co/spaces/JasonJosephIT/takemeter">Hugging Face Space</a> (free CPU).
+    If it has been asleep, the first answer can take up to a minute. Test-set macro-F1 is 0.36, so
+    expect mistakes; it is best at spotting ads. Every request is logged by the Space, including the
+    text you send. <a href="https://github.com/JasonJosephIT/ai201-project5-takemeter">Source on GitHub</a>.
+  </p>
+</main>
+
+<script>
+const API = "https://jasonjosephit-takemeter.hf.space/gradio_api/call/classify";
+const NAMES = { analysis:"analysis", hot_take:"hot take", reaction:"reaction",
+                explainer:"explainer", anecdote:"anecdote", advertisement:"advertisement" };
+const $ = id => document.getElementById(id);
+const post = $("post"), go = $("go"), status = $("status");
+
+async function classify(text) {
+  const res = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" },
+                                 body: JSON.stringify({ data: [text] }) });
+  if (!res.ok) throw new Error(`Space answered ${res.status}`);
+  const { event_id } = await res.json();
+  const body = await (await fetch(`${API}/${event_id}`)).text();
+  const done = body.split("event: complete")[1];
+  if (!done) throw new Error("The Space returned an error. Try again in a moment.");
+  return JSON.parse(done.split("data:")[1].trim().split("\n")[0])[0];
+}
+
+function show(out) {
+  $("top").textContent = NAMES[out.label] || out.label;
+  $("bars").innerHTML = out.confidences.map(c => `
+    <div class="bar${c.label === "advertisement" ? " ad" : ""}">
+      <span>${NAMES[c.label] || c.label}</span>
+      <div class="track"><div class="fill" style="width:${(c.confidence * 100).toFixed(1)}%"></div></div>
+      <span class="num">${(c.confidence * 100).toFixed(0)}%</span>
+    </div>`).join("");
+  $("result").style.display = "block";
+}
+
+go.addEventListener("click", async () => {
+  const text = post.value.trim();
+  if (!text) { status.textContent = "Paste a post first."; post.focus(); return; }
+  go.disabled = true;
+  const slow = setTimeout(() => status.textContent = "Waking the Space up. This can take up to a minute…", 3000);
+  status.textContent = "Classifying…";
+  const t0 = performance.now();
+  try {
+    const out = await classify(text);
+    show(out);
+    status.textContent = `Answered in ${Math.round(performance.now() - t0)} ms.`;
+  } catch (e) {
+    status.textContent = `Couldn't reach the model: ${e.message}`;
+  } finally { clearTimeout(slow); go.disabled = false; }
+});
+
+$("clear").addEventListener("click", () => { post.value = ""; $("result").style.display = "none"; status.textContent = ""; post.focus(); });
+document.querySelectorAll("[data-ex]").forEach(b => b.addEventListener("click", () => { post.value = b.dataset.ex; go.click(); }));
+post.addEventListener("keydown", e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) go.click(); });
+</script>
+</body>
+</html>

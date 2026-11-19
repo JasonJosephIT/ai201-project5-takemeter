@@ -1,0 +1,183 @@
+{
+  "space": "JasonJosephIT/takemeter",
+  "max_length": 128,
+  "hardware": "cpu-basic",
+  "warm": [
+    {
+      "trial": 1,
+      "started": "2026-11-19T00:40:15.644904+00:00",
+      "c1_round_trip_ms": 402,
+      "c1_label": "advertisement",
+      "c2_logged_complete": "10/10",
+      "c3_median_latency_ms": 54.4,
+      "c3_n": 20,
+      "c3_max_latency_ms": 106.1,
+      "round_trip_median_ms": 416,
+      "c5a_parity": "20/20",
+      "c5b_macro_f1": 0.278,
+      "c6_ad_precision": 0.8,
+      "c7_truncation_match": "20/20",
+      "sample_log_lines": [
+        {
+          "ts": "2026-11-19T00:40:16.046342+00:00",
+          "input": "warm-up request, not counted",
+          "label": "explainer",
+          "confidence": 0.2093,
+          "n_tokens": 9,
+          "truncated": false,
+          "latency_ms": 35.2,
+          "t_tokenize_ms": 0.8,
+          "t_model_ms": 34.3,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:40:16.479427+00:00",
+          "input": "Our family bakery on Edgewater Drive is opening a second location in Winter Park this Saturday. The first fifty customers get a free dozen cookies, and we will have live music, face painting for kids and coffee from a local roaster all day. Come say hi, bring your neighbours and try our new guava cheese pastries.",
+          "label": "advertisement",
+          "confidence": 0.2616,
+          "n_tokens": 68,
+          "truncated": false,
+          "latency_ms": 46.3,
+          "t_tokenize_ms": 0.7,
+          "t_model_ms": 45.5,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:40:16.902718+00:00",
+          "input": "Leiah closed unexpectedly tonight. Anyone know why?\n\nHad reservations at Leiah tonight at 6:30. Upon arrival the front doors were locked and we then realized there were no customers inside. We waited outside confused for a couple minutes and a police officer showed up and was let in to talk with a chef. We walked away with no answers and aside from being disappointed in beyond curious. Anyone knows what's up?",
+          "label": "reaction",
+          "confidence": 0.2978,
+          "n_tokens": 86,
+          "truncated": false,
+          "latency_ms": 54.5,
+          "t_tokenize_ms": 0.9,
+          "t_model_ms": 53.5,
+          "t_post_ms": 0.1
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "started": "2026-11-19T00:40:45.527081+00:00",
+      "c1_round_trip_ms": 385,
+      "c1_label": "advertisement",
+      "c2_logged_complete": "10/10",
+      "c3_median_latency_ms": 53.0,
+      "c3_n": 20,
+      "c3_max_latency_ms": 99.6,
+      "round_trip_median_ms": 419,
+      "c5a_parity": "20/20",
+      "c5b_macro_f1": 0.278,
+      "c6_ad_precision": 0.8,
+      "c7_truncation_match": "20/20",
+      "sample_log_lines": [
+        {
+          "ts": "2026-11-19T00:40:45.707909+00:00",
+          "input": "warm-up request, not counted",
+          "label": "explainer",
+          "confidence": 0.2093,
+          "n_tokens": 9,
+          "truncated": false,
+          "latency_ms": 22.0,
+          "t_tokenize_ms": 0.4,
+          "t_model_ms": 21.5,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:40:46.123778+00:00",
+          "input": "Our family bakery on Edgewater Drive is opening a second location in Winter Park this Saturday. The first fifty customers get a free dozen cookies, and we will have live music, face painting for kids and coffee from a local roaster all day. Come say hi, bring your neighbours and try our new guava cheese pastries.",
+          "label": "advertisement",
+          "confidence": 0.2616,
+          "n_tokens": 68,
+          "truncated": false,
+          "latency_ms": 47.1,
+          "t_tokenize_ms": 0.8,
+          "t_model_ms": 46.2,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:40:46.458895+00:00",
+          "input": "Leiah closed unexpectedly tonight. Anyone know why?\n\nHad reservations at Leiah tonight at 6:30. Upon arrival the front doors were locked and we then realized there were no customers inside. We waited outside confused for a couple minutes and a police officer showed up and was let in to talk with a chef. We walked away with no answers and aside from being disappointed in beyond curious. Anyone knows what's up?",
+          "label": "reaction",
+          "confidence": 0.2978,
+          "n_tokens": 86,
+          "truncated": false,
+          "latency_ms": 56.1,
+          "t_tokenize_ms": 1.0,
+          "t_model_ms": 55.0,
+          "t_post_ms": 0.1
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "started": "2026-11-19T00:41:15.080385+00:00",
+      "c1_round_trip_ms": 404,
+      "c1_label": "advertisement",
+      "c2_logged_complete": "10/10",
+      "c3_median_latency_ms": 57.3,
+      "c3_n": 20,
+      "c3_max_latency_ms": 85.4,
+      "round_trip_median_ms": 410,
+      "c5a_parity": "20/20",
+      "c5b_macro_f1": 0.278,
+      "c6_ad_precision": 0.8,
+      "c7_truncation_match": "20/20",
+      "sample_log_lines": [
+        {
+          "ts": "2026-11-19T00:41:15.281523+00:00",
+          "input": "warm-up request, not counted",
+          "label": "explainer",
+          "confidence": 0.2093,
+          "n_tokens": 9,
+          "truncated": false,
+          "latency_ms": 35.5,
+          "t_tokenize_ms": 0.5,
+          "t_model_ms": 35.0,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:41:15.708291+00:00",
+          "input": "Our family bakery on Edgewater Drive is opening a second location in Winter Park this Saturday. The first fifty customers get a free dozen cookies, and we will have live music, face painting for kids and coffee from a local roaster all day. Come say hi, bring your neighbours and try our new guava cheese pastries.",
+          "label": "advertisement",
+          "confidence": 0.2616,
+          "n_tokens": 68,
+          "truncated": false,
+          "latency_ms": 44.9,
+          "t_tokenize_ms": 0.8,
+          "t_model_ms": 44.0,
+          "t_post_ms": 0.1
+        },
+        {
+          "ts": "2026-11-19T00:41:16.128634+00:00",
+          "input": "Leiah closed unexpectedly tonight. Anyone know why?\n\nHad reservations at Leiah tonight at 6:30. Upon arrival the front doors were locked and we then realized there were no customers inside. We waited outside confused for a couple minutes and a police officer showed up and was let in to talk with a chef. We walked away with no answers and aside from being disappointed in beyond curious. Anyone knows what's up?",
+          "label": "reaction",
+          "confidence": 0.2978,
+          "n_tokens": 86,
+          "truncated": false,
+          "latency_ms": 55.6,
+          "t_tokenize_ms": 0.9,
+          "t_model_ms": 54.6,
+          "t_post_ms": 0.1
+        }
+      ]
+    }
+  ],
+  "cold": [
+    {
+      "trial": 1,
+      "c4_cold_start_s": 14.6,
+      "label": "advertisement"
+    },
+    {
+      "trial": 2,
+      "c4_cold_start_s": 14.3,
+      "label": "advertisement"
+    },
+    {
+      "trial": 3,
+      "c4_cold_start_s": 14.8,
+      "label": "advertisement"
+    }
+  ]
+}

@@ -37,6 +37,42 @@
   .note { color: var(--muted); font-size: .875rem; margin-top: 28px; }
   .note a { color: var(--accent); }
   @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+  section { margin-top: 48px; }
+  h2 { font-size: 1.25rem; margin: 0 0 4px; }
+  .lede { color: var(--muted); margin: 0 0 16px; font-size: .95rem; }
+  .stats { display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .stat { background: var(--card); border:1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat b { display:block; font-size: 1.5rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .stat span { color: var(--muted); font-size: .85rem; }
+  .flow { width: 100%; height: auto; display:block; }
+  .flow rect { fill: var(--card); stroke: var(--line); }
+  .flow text { fill: var(--ink); font: 13px system-ui, sans-serif; }
+  .flow .small { fill: var(--muted); font-size: 11px; }
+  .flow path { stroke: var(--muted); fill: none; }
+  .flow .hl { stroke: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; background: var(--card);
+          border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: .8rem; color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pill { display:inline-block; font-size: .75rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .pass { background: color-mix(in srgb, #16a34a 16%, transparent); color: #15803d; }
+  .miss { background: color-mix(in srgb, #dc2626 16%, transparent); color: #b91c1c; }
+  @media (prefers-color-scheme: dark) { .pass { color: #4ade80; } .miss { color: #f87171; } }
+  .tag { font-size: .75rem; color: var(--muted); }
+  .cmp { display:grid; grid-template-columns: 110px 1fr 44px; gap: 6px 10px; align-items:center; font-size: .85rem; }
+  .cmp .pair { display:grid; gap: 3px; }
+  .cmp .b { height: 8px; border-radius: 999px; background: var(--line); }
+  .cmp .a { height: 8px; border-radius: 999px; background: var(--accent); }
+  .legend { display:flex; gap: 16px; font-size: .8rem; color: var(--muted); margin: 0 0 12px; }
+  .legend i { display:inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  ul.plain { margin: 0; padding-left: 18px; }
+  ul.plain li { margin: 4px 0; }
+  .two { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .two { grid-template-columns: 1fr; } }
+  pre { background: var(--card); border:1px solid var(--line); border-radius: 12px; padding: 12px; overflow-x:auto;
+        font: 12px/1.5 ui-monospace, Menlo, monospace; margin: 0; }
 </style>
 </head>
 <body>
@@ -66,6 +102,94 @@
     </div>
   </div>
 
+  <section aria-labelledby="h-built">
+    <h2 id="h-built">What I built</h2>
+    <p class="lede">Project 3's classifier, taken out of the notebook and put behind a public URL, with every request measured.</p>
+    <div class="stats">
+      <div class="stat"><b>6</b><span>labels, 3 of them mine</span></div>
+      <div class="stat"><b>215</b><span>labelled Orlando posts</span></div>
+      <div class="stat"><b>~50 ms</b><span>median server time</span></div>
+      <div class="stat"><b>~16 s</b><span>cold start</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-how">
+    <h2 id="h-how">How a request flows</h2>
+    <p class="lede">Each stage is timed with <code>perf_counter</code> and written to one JSON log line.</p>
+    <svg class="flow" viewBox="0 0 640 150" role="img" aria-label="Browser sends post to the Hugging Face Space, which tokenizes, runs the model, post-processes and writes a log line, then returns label scores.">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10" class="hl"/></marker></defs>
+      <rect x="4" y="44" width="104" height="52" rx="10"/><text x="56" y="68" text-anchor="middle">This page</text><text x="56" y="84" text-anchor="middle" class="small">GitHub Pages</text>
+      <path d="M108 70 H140" class="hl" marker-end="url(#ar)"/>
+      <rect x="144" y="8" width="492" height="134" rx="12" stroke-dasharray="4 4"/>
+      <text x="156" y="28" class="small">Hugging Face Space · Gradio · free CPU</text>
+      <rect x="156" y="44" width="100" height="52" rx="10"/><text x="206" y="68" text-anchor="middle">Tokenize</text><text x="206" y="84" text-anchor="middle" class="small">≤ 512 tokens</text>
+      <path d="M256 70 H276" marker-end="url(#ar)" class="hl"/>
+      <rect x="280" y="44" width="100" height="52" rx="10"/><text x="330" y="68" text-anchor="middle">DistilBERT</text><text x="330" y="84" text-anchor="middle" class="small">fine-tuned</text>
+      <path d="M380 70 H400" marker-end="url(#ar)" class="hl"/>
+      <rect x="404" y="44" width="100" height="52" rx="10"/><text x="454" y="68" text-anchor="middle">Post-process</text><text x="454" y="84" text-anchor="middle" class="small">softmax → label</text>
+      <path d="M504 70 H524" marker-end="url(#ar)" class="hl"/>
+      <rect x="528" y="44" width="96" height="52" rx="10"/><text x="576" y="68" text-anchor="middle">Log line</text><text x="576" y="84" text-anchor="middle" class="small">JSONL</text>
+      <text x="390" y="126" text-anchor="middle" class="small">t_tokenize_ms · t_model_ms · t_post_ms · n_tokens · truncated</text>
+    </svg>
+    <pre>{"label": "advertisement", "confidence": 0.26, "latency_ms": 38.1, "t_tokenize_ms": 0.9,
+ "t_model_ms": 37.1, "t_post_ms": 0.1, "n_tokens": 19, "truncated": false}</pre>
+  </section>
+
+  <section aria-labelledby="h-results">
+    <h2 id="h-results">Test results</h2>
+    <p class="lede">7 criteria, written before any run. Each ran 3 times against the live Space. Values are trials 1 / 2 / 3.</p>
+    <table>
+      <thead><tr><th>#</th><th>Criterion</th><th>Before · 128 tokens</th><th>After · 512 tokens</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Answers within 5 s</td><td class="n">402 / 385 / 404 ms <span class="pill pass">Pass</span></td><td class="n">436 / 345 / 430 ms <span class="pill pass">Pass</span></td></tr>
+        <tr><td>2</td><td>Every request logged, all fields</td><td class="n">10/10 ×3 <span class="pill pass">Pass</span></td><td class="n">10/10 ×3 <span class="pill pass">Pass</span></td></tr>
+        <tr><td>3</td><td>Median server time ≤ 300 ms</td><td class="n">54 / 53 / 57 ms <span class="pill pass">Pass</span></td><td class="n">54 / 47 / 47 ms <span class="pill pass">Pass</span></td></tr>
+        <tr><td>4</td><td>Cold start ≤ 60 s</td><td class="n">14.6 / 14.3 / 14.8 s <span class="pill pass">Pass</span></td><td class="n">16.0 / 15.8 / 16.2 s <span class="pill pass">Pass</span></td></tr>
+        <tr><td>5a</td><td>Hosted = local model ≥ 19/20</td><td class="n">20/20 ×3 <span class="pill pass">Pass</span></td><td class="n">20/20 ×3 <span class="pill pass">Pass</span></td></tr>
+        <tr><td>5b</td><td>Macro-F1 ≥ 0.60 <span class="tag">model</span></td><td class="n">0.28 <span class="pill miss">Miss</span></td><td class="n">0.36 <span class="pill miss">Miss</span></td></tr>
+        <tr><td>6</td><td>Ad precision ≥ 0.70 <span class="tag">model</span></td><td class="n">0.80 <span class="pill pass">Pass</span></td><td class="n">0.71 <span class="pill pass">Pass</span></td></tr>
+        <tr><td>7</td><td>Truncation flag correct 20/20</td><td class="n">20/20 ×3 <span class="pill pass">Pass</span></td><td class="n">20/20 ×3 <span class="pill pass">Pass</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="h-improve">
+    <h2 id="h-improve">The improvement: read more of each post</h2>
+    <p class="lede">Raised the token limit 128 → 512 and retrained. Same data, seed and test posts.</p>
+    <div class="stats">
+      <div class="stat"><b>34% → 5%</b><span>posts cut short</span></div>
+      <div class="stat"><b>0.28 → 0.36</b><span>macro-F1</span></div>
+      <div class="stat"><b>0.30 → 0.39</b><span>accuracy</span></div>
+      <div class="stat"><b>+0 ms</b><span>median latency</span></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="legend"><span><i style="background:var(--line)"></i>128 tokens</span><span><i style="background:var(--accent)"></i>512 tokens</span></div>
+      <div class="cmp" id="cmp"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-next">
+    <h2 id="h-next">What's still broken, and next</h2>
+    <div class="two">
+      <div class="card">
+        <b>Still broken</b>
+        <ul class="plain">
+          <li><code>hot_take</code> scores 0: read as <code>analysis</code></li>
+          <li><code>reaction</code> vs <code>anecdote</code> mixed up</li>
+          <li>A bare link is read as text and called an ad</li>
+        </ul>
+      </div>
+      <div class="card">
+        <b>Future improvements</b>
+        <ul class="plain">
+          <li>Merge <code>reaction</code> + <code>anecdote</code> (estimate 13 → 17 of 33 right)</li>
+          <li>Paste a link: fetch the post with Tavily or Firecrawl</li>
+          <li>Save logs past restarts (<code>CommitScheduler</code>)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <p class="note">
     The model is a fine-tuned DistilBERT running on a
     <a href="https://huggingface.co/spaces/JasonJosephIT/takemeter">Hugging Face Space</a> (free CPU).
@@ -80,6 +204,15 @@ const API = "https://jasonjosephit-takemeter.hf.space/gradio_api/call/classify";
 const NAMES = { analysis:"analysis", hot_take:"hot take", reaction:"reaction",
                 explainer:"explainer", anecdote:"anecdote", advertisement:"advertisement" };
 const $ = id => document.getElementById(id);
+const F1 = { analysis:[0.46,0.50], hot_take:[0,0], reaction:[0.33,0.36],
+             explainer:[0.14,0.29], anecdote:[0,0.22], advertisement:[0.73,0.77] };
+$("cmp").innerHTML = Object.entries(F1).map(([k,[b,a]]) => `
+  <span>${NAMES[k]}</span>
+  <div class="pair" aria-label="${NAMES[k]}: ${b} before, ${a} after">
+    <div class="b" style="width:${Math.max(b*100,1)}%"></div>
+    <div class="a" style="width:${Math.max(a*100,1)}%"></div>
+  </div>
+  <span class="num">${a.toFixed(2)}</span>`).join("");
 const post = $("post"), go = $("go"), status = $("status");
 
 async function classify(text) {

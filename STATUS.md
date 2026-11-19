@@ -1,12 +1,12 @@
 ---
 status: active
-progress: before-trials done, 7/8 pass; next is diagnosis + improvement
+progress: hosting, trials, improvement and demo page done; README left
 next_date:
 updated: 2026-11-18
 ---
 
 ## Now
-- 2026-11-18: Before-trials done (run_log.md / run_log.json, trials.py): 7 of 8 pass. 5b macro-F1 0.357 misses 0.60. 6 ad precision 0.714 passes by one post. Cold start 16 s (pause -> restart). Next: verdicts + diagnosis, then pick an improvement (token limit already used).
+- 2026-11-19: Improvement = max_length 128 -> 512. Before/after trials both done (run_log.md, run_log_128.json, run_log_512.json): 7/8 pass both times; macro-F1 0.28 -> 0.36 (still misses 0.60), ad precision 0.80 -> 0.71. Space back on the 512 model. Demo page now has built / flow / results / improvement / next sections. Left: README (PLAN step 8), RUNNING.md.
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next

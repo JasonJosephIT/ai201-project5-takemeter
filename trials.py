@@ -130,12 +130,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--trials", type=int, default=3)
     ap.add_argument("--cold", type=int, default=3)
+    ap.add_argument("--model-dir", default="model", help="local model to compare against (5a)")
+    ap.add_argument("--max-length", type=int, default=512, help="token limit the Space uses")
+    ap.add_argument("--out", default="run_log.json")
     args = ap.parse_args()
+    global MAX_LENGTH
+    MAX_LENGTH = args.max_length
 
     test = pd.read_csv("test_split.csv")
     test["text"] = test["text"].astype(str)
-    tok = AutoTokenizer.from_pretrained("model")
-    clf = pipeline("text-classification", model="model", truncation=True, max_length=MAX_LENGTH)
+    tok = AutoTokenizer.from_pretrained(args.model_dir)
+    clf = pipeline("text-classification", model=args.model_dir, truncation=True, max_length=MAX_LENGTH)
     local_labels = [r["label"] for r in clf(list(test.text))]
 
     out = {"space": SPACE, "max_length": MAX_LENGTH, "hardware": "cpu-basic",
@@ -149,9 +154,9 @@ def main():
         r = cold_trial(i, api)
         out["cold"].append(r)
         print(json.dumps(r), flush=True)
-    with open("run_log.json", "w") as f:
+    with open(args.out, "w") as f:
         json.dump(out, f, indent=2)
-    print("Wrote run_log.json")
+    print(f"Wrote {args.out}")
 
 
 if __name__ == "__main__":

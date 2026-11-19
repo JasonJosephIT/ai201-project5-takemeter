@@ -32,5 +32,6 @@ labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed a
 - README pre-labelling disclosure.
 
 ## Idea Shelf
+- Link extraction (future, 2026-11-18): if input is a URL, the Space calls Tavily Extract (or Firecrawl scrape) to pull title + body, then classifies it. Key stored as a Space secret, never in the page. Log the URL and extracted text. Ties Project 3 into the tool-calling projects. Would need its own criteria (extract success rate, added latency) and is outside current PLAN scope.
 - Bare URLs get labelled advertisement (0.29); app does not fetch links. Option: reject URL-only input, or fetch Reddit posts server-side (Reddit may block HF). Not acted on (2026-11-18).
 - 2026-11-11: URL intake (paste a Reddit URL, a script pulls title + body via Arctic Shift by post id, then labels it). Candidate for the extra-credit second improvement; needs a URL criterion written before any run.

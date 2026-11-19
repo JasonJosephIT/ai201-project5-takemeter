@@ -10,6 +10,7 @@ updated: 2026-11-18
 labels.csv final: 215 rows (40 explainer, 35 each of the other five), reviewed and confirmed by me. Copied to the Project 3 repo.
 
 ## Next
+- Improvement (after hosting is confirmed): consolidate labels. Estimate from current predictions, no retrain: merge reaction+anecdote -> 17/33 correct, explainer+anecdote -> 15/33, today 13/33. Report 6-label and merged scores; keep 0.60 target.
 - Train: run takemeter.ipynb sections 1–5 and save the model (step 0 of PLAN.md).
 - Write criteria.md (5 criteria, before any deploy run).
 - Build app.py with JSONL logging and deploy to an HF Space.
